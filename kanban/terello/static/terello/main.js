@@ -35,25 +35,27 @@ jQuery(function($) {
   // render a task (put it in the screen)
   var renderEntry = function(entry) {
     var template = '<li><span class="title"></span>' +
-                   ' <a href="javascript:;" data-action="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a> ' +
-                   '<a href="javascript:;" data-action="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>' +
-                   '<form style="display:none;">' +
-                   '<input type="text" name="title" value="'+entry.title+'" />' +
-                   '<span>Status</span>'+
-                   '<select name="status">' +
-                     '<option value="1">Today</option>' +
-                     '<option selected="selected" value="2">Week</option>' +
-                     '<option value="3">Month</option>' +
-                     '<option value="4">Year</option>' +
-                     '<option value="5">Done!</option></select>' +
+                    ' <a href="javascript:;" data-action="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a> ' +
+                    '<a href="javascript:;" data-action="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>' +
+                    '<form style="display:none;">' +
+                    '<span>Title </span>'+
+                    '<input type="text" name="title" value="'+entry.title+'" /><br />' +
+                    '<span>Status </span>'+
+                    '<select name="status">' +
+                      '<option value="1">Today</option>' +
+                      '<option selected="selected" value="2">Week</option>' +
+                      '<option value="3">Month</option>' +
+                      '<option value="4">Year</option>' +
+                      '<option value="5">Done!</option></select><br />' +
 
+                   '<span>Priority </span>'+
                    '<select name="priority">' +
-                     '<option value="1">Urgent</option>' +
-                     '<option value="2">High</option>' +
-                     '<option value="3">Medium</option>' +
-                     '<option selected="selected" value="4">Low</option></select>' +
+                      '<option value="1">Urgent</option>' +
+                      '<option value="2">High</option>' +
+                      '<option value="3">Medium</option>' +
+                      '<option selected="selected" value="4">Low</option></select><br />' +
 
-                   '<input type="submit" value="Update Task"></form></li>';
+                   '<input type="submit" value="Update Task"></form><br /></li>';
     console.log(entry);
     var $row = $(template);
     $row.data('id', entry.id);
