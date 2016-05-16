@@ -1,0 +1,37 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+
+
+.header {
+    padding: 20px;
+}
+
+.list {
+    width: 50%;
+    float: left;
+    padding: 15px;
+}
+
+.main {
+    width: 50%;
+    float: left;
+    padding: 15px;
+}
+
+h1 {
+  font-family: 'Lobster', sans-serif;
+  font-size: 50px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background: pink;
+}
+
+input[name="title"] {
+  color: blue;
+}
+
+a {
+    color: grey;
+}

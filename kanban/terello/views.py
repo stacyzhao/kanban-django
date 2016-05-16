@@ -1,7 +1,11 @@
 from rest_framework import viewsets
 from .models import Task
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, UserSerializer
 from django.views import generic
+from django.contrib.auth.models import User
+from rest_framework import generics
+from rest_framework import permissions
+from terello.permissions import IsOwnerOrReadOnly
 
 
 class IndexView(generic.ListView):
@@ -9,38 +13,35 @@ class IndexView(generic.ListView):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.all().order_by('status')
+    queryset = Task.objects.all().order_by('status', 'priority')
     serializer_class = TaskSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
 
-def logmein(request):
-   username = request.GET.get('username')
-   password = request.GET.get('pwd')
-   stayloggedin = request.GET.get('stayloggedin')
-   if stayloggedin == "true":
-       pass
-   else:
-       request.session.set_expiry(0)
-   user = authenticate(username=username, password=password)
-   if user is not None:
-       if user.is_active:
-           login(request, user)
-           return HttpResponse('fine')
-       else:
-           return HttpResponse('inactive')
-   else:
-       return HttpResponse('bad')
-# def ajax_registration(request):
-#     obj = {
-#         'login_form': AuthenticationForm(),
-#         'registration_form': RegistrationForm(),
-#     }
-#     return render(request, 'common/ajax_registration.html', obj)
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
-# class TaskList(viewsets.ModelViewSet):
-#     queryset = Task.objects.all().order_by('status')
-#     serializer_class = TaskSerializer
-#
-#
-# class TaskDetail(viewsets.ModelViewSet):
-#     queryset = Task.objects.all().order_by('priority')
-#     serializer_class = TaskSerializer
+    # def perform_delete(self, serializer):
+    #     serializer.delete(owner=self.request.user)
+    #
+    # def perform_edit(self, serializer):
+    #     serializer.save(owner=self.request.user)
+
+
+
+    # def update(self, instance, validated_data):
+    #     instance.email = validated_data.get('email', instance.email)
+    #     instance.content = validated_data.get('content', instance.content)
+    #     instance.created = validated_data.get('created', instance.created)
+    #     instance.save()
+    #     return instance
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
