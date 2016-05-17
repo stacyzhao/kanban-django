@@ -21,6 +21,9 @@ class TaskViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    def pre_save(self, obj):
+        obj.owner = self.request.user
+
     # def perform_delete(self, serializer):
     #     serializer.delete(owner=self.request.user)
     #

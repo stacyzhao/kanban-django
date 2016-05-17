@@ -31,7 +31,9 @@ router.register(r'tasks', views.TaskViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',{'next_page': 'http://localhost:8000/'}),
     url(r'^', include('django.contrib.auth.urls')),
+
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     url(r'^users/$', views.UserList.as_view()),

@@ -20,6 +20,7 @@ function csrfSafeMethod(method) {
   // these HTTP methods do not require CSRF protection
   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
 $.ajaxSetup({
   beforeSend: function(xhr, settings) {
     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -30,7 +31,7 @@ $.ajaxSetup({
 
 
 jQuery(function($) {
-  var $entries = $('#entries');
+  var $lists = $('.list ul');
 
   // render a task (put it in the screen)
   var renderEntry = function(entry) {
@@ -42,25 +43,38 @@ jQuery(function($) {
                     '<input type="text" name="title" value="'+entry.title+'" /><br />' +
                     '<span>Status </span>'+
                     '<select name="status">' +
-                      '<option value="1">Today</option>' +
-                      '<option selected="selected" value="2">Week</option>' +
-                      '<option value="3">Month</option>' +
-                      '<option value="4">Year</option>' +
-                      '<option value="5">Done!</option></select><br />' +
+                      '<option value="Today">Today</option>' +
+                      '<option value="Week">Week</option>' +
+                      '<option value="Month">Month</option>' +
+                      '<option value="Year">Year</option>' +
+                      '<option value="Done">Done!</option></select><br />' +
 
                    '<span>Priority </span>'+
                    '<select name="priority">' +
-                      '<option value="1">Urgent</option>' +
-                      '<option value="2">High</option>' +
-                      '<option value="3">Medium</option>' +
-                      '<option selected="selected" value="4">Low</option></select><br />' +
+                      '<option value="Urgent">Urgent</option>' +
+                      '<option value="High">High</option>' +
+                      '<option value="Medium">Medium</option>' +
+                      '<option selected="selected" value="Low">Low</option></select><br />' +
 
                    '<input type="submit" value="Update Task"></form><br /></li>';
+
     console.log(entry);
     var $row = $(template);
+    var $li = $('<li>');
     $row.data('id', entry.id);
+    if (entry.status == 'Today') {
+      $row.appendTo($('#Today'));
+    } else if(entry.status == 'Week') {
+      $row.appendTo($('#Week'));
+    } else if(entry.status == 'Month') {
+      $row.appendTo($('#Month'));
+    } else if(entry.status == 'Year') {
+      $row.appendTo($('#Year'));
+    } else if(entry.status == 'Done') {
+      $row.appendTo($('#Done'));
+    }
     $row.find('span.title').text(entry.title);
-    $row.appendTo($entries);
+
   }
 
   // get existing tasks
@@ -69,7 +83,7 @@ jQuery(function($) {
   });
 
   // delete a task and remove entry from UI
-  $entries.on('click', 'a[data-action="delete"]', function(event) {
+  $lists.on('click', 'a[data-action="delete"]', function(event) {
     var $row = $(event.target).closest('li');
     var id = $row.data('id');
     $.ajax({
@@ -82,15 +96,14 @@ jQuery(function($) {
   });
 
   // edit a task
-  $entries.on('click', 'a[data-action="edit"]', function(event) {
+  $lists.on('click', 'a[data-action="edit"]', function(event) {
     var $row = $(event.target).closest('li');
     $row.find('form').toggle();
-
   });
+
   // submit edited task
-  $entries.on('submit', 'form', function(event) {
+  $lists.on('submit', 'form', function(event) {
     var $row = $(event.target).closest('li');
-    debugger;
     var id = $row.data('id');
     var $title = $row.find('input[name="title"]');
     var $status = $row.find('select[name="status"]');
@@ -107,11 +120,8 @@ jQuery(function($) {
       success: function(response){
         $row.find('span.title').text(response.title);
         $row.find('form').toggle()
-
-
       }
     });
-
     return false;
   });
 
@@ -133,11 +143,7 @@ jQuery(function($) {
       url: 'http://localhost:8000/api/tasks/',
       data: data,
       success: renderEntry
-
     });
-
-
     return false;
   });
-
 });

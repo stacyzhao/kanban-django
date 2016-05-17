@@ -1,39 +1,47 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+@import url(https://fonts.googleapis.com/css?family=Lobster);
 
 
 .header {
     padding: 20px;
 }
 
+.col-11{
+  font-size: 25px;
+}
+
 .task {
-    width: 60%;
+    width: 20%;
     float: left;
     padding: 15px;
     font-size: 20px;
 }
 
-.list, .col-4, .col-4 {
+.col-4 {
     width: 40%;
     float: left;
     padding: 15px;
     font-size: 20px;
 }
 
+.list {
+    width: 20%;
+    float: left;
+    padding: 15px;
+    font-size: 20px;
+}
+
 h1 {
-  font-family: 'Lobster', sans-serif;
-  font-size: 50px;
+  font-size: 40px;
   text-shadow: 2px 2px #FFFFFF;
 }
 
 h2 {
-  font-family: 'Lobster', sans-serif;
   font-size: 30px;
   text-shadow: 2px 2px #FF69B4;
-
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lobster', sans-serif;
   margin: 0;
   background: pink;
 }
@@ -45,6 +53,11 @@ input[name="title"] {
 a {
     color: grey;
 }
+
+input[type=text] {
+    border: 2px solid #FF69B4;
+}
+
 
 [class*="col-"] {
     float: left;
