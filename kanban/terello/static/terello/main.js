@@ -78,7 +78,7 @@ jQuery(function($) {
   }
 
   // get existing tasks
-  $.get('http://localhost:8000/api/tasks', function(entries){
+  $.get('api/tasks', function(entries){
     entries.results.forEach(renderEntry);
   });
 
@@ -88,7 +88,7 @@ jQuery(function($) {
     var id = $row.data('id');
     $.ajax({
       method: 'delete',
-      url:'http://localhost:8000/api/tasks/' + id,
+      url:'api/tasks/' + id,
       success: function(){
         $row.remove();
       }
@@ -115,7 +115,7 @@ jQuery(function($) {
     };
     $.ajax({
       method: 'put',
-      url:'http://localhost:8000/api/tasks/' + id + '/',
+      url:'api/tasks/' + id + '/',
       data: data,
       success: function(response){
         $row.find('span.title').text(response.title);
@@ -140,7 +140,7 @@ jQuery(function($) {
     console.log('you submitted the form');
     $.ajax({
       method: 'post',
-      url: 'http://localhost:8000/api/tasks/',
+      url: 'api/tasks/',
       data: data,
       success: renderEntry
     });

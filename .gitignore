@@ -2,5 +2,6 @@
 .envrc
 .direnv
 __pycache__
-secrets.py
 *.pyc
+terello/__pycache__/admin.cpython-35.pyc
+kanban/__pycache__/settings.cpython-35.pyc
